@@ -17,7 +17,7 @@ public class FunDeclaration implements Declaration, Node{
 
     @Override
     public void toCminus(StringBuilder builder, final String prefix) {
-        builder.append(prefix);
+        builder.append(prefix).append("\n");
         builder.append(returnType).append(" ");
         builder.append(functionName).append("(");
         if(!parameters.isEmpty()) {
@@ -28,10 +28,9 @@ public class FunDeclaration implements Declaration, Node{
                 parameters.get(i).toCminus(builder, "");
             }
         }
-        builder.append(") {\n");
+        builder.append(")\n");
         if (body != null) {
-            body.toCminus(builder, prefix + "  ");
+            body.toCminus(builder, "\t");
         }
-        builder.append(prefix).append("}\n");
     }
 }

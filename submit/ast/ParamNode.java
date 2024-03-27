@@ -13,6 +13,6 @@ public class ParamNode implements Node{
     public void toCminus(StringBuilder builder, String prefix) {
         builder.append(prefix);
         builder.append(type).append(" ");
-        paramName.toCminus(builder, prefix+ " ");
+        paramName.toCminus(builder, prefix);
     }
 }

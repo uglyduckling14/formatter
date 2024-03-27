@@ -20,7 +20,7 @@ public class Mutable implements Expression, Node {
 
   @Override
   public void toCminus(StringBuilder builder, String prefix) {
-    builder.append(id);
+    builder.append(id).append(" ");
     if (index != null) {
       builder.append("[");
       index.toCminus(builder, prefix);
