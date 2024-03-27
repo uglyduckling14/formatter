@@ -81,8 +81,6 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
         }
         return node;
     }
-
-    // TODO Uncomment and implement whatever methods make sense
     /**
      * {@inheritDoc}
      *
@@ -442,6 +440,9 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public Node visitMutable(CminusParser.MutableContext ctx) {
+        if(symbolTable.find(ctx.ID().getText()) == null){
+            LOGGER.warning("Undefined symbol on line "+ctx.getStart().getLine()+": "+ctx.ID().getText());
+        }
         return new Mutable(ctx.ID().getText(), (Expression)visitExpression(ctx.expression()));
     }
     /**
@@ -472,6 +473,9 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
         List<Expression> exps = new ArrayList<>();
         for (CminusParser.ExpressionContext exp:ctx.expression()) {
             exps.add((Expression)visitExpression(exp));
+        }
+        if(symbolTable.find(ctx.ID().getText()) == null){
+            LOGGER.warning("Undefined symbol on line "+ctx.getStart().getLine()+": "+ctx.ID().getText());
         }
         return new Call(exps, ctx.ID().getText());
     }
