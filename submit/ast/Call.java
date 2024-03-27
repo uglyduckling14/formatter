@@ -13,6 +13,10 @@ public class Call implements Node{
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
         builder.append(id).append("(");
+        if(expressions.size() == 0){
+            builder.append(")");
+            return;
+        }
         for(int i = 0; i< expressions.size()-1; i++){
             expressions.get(i).toCminus(builder, prefix);
             builder.append(",");

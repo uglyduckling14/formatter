@@ -11,6 +11,7 @@ import submit.ast.Ops.UnaryopNode;
 import submit.ast.Statements.CompoundStatementNode;
 import submit.ast.Statements.ExpressionStatementNode;
 import submit.ast.Statements.IfStatementNode;
+import submit.ast.Statements.WhileStatementNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
     }
 
     private VarType getVarType(CminusParser.TypeSpecifierContext ctx) {
+        if(ctx == null){return null;}
         final String t = ctx.getText();
         return (t.equals("int")) ? VarType.INT : (t.equals("bool")) ? VarType.BOOL : VarType.CHAR;
     }
@@ -90,11 +92,9 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
     @Override public Node visitDeclaration(CminusParser.DeclarationContext ctx) {
         if(ctx.varDeclaration() != null){
             CminusParser.VarDeclarationContext varDec = ctx.varDeclaration();
-            //LOGGER.fine(""+varDec);
             return visitVarDeclaration(varDec);
         } else if (ctx.funDeclaration() != null) {
             CminusParser.FunDeclarationContext funDec = ctx.funDeclaration();
-            //LOGGER.fine(""+funDec.getText());
             return visitFunDeclaration(funDec);
         }
         return visitChildren(ctx);
@@ -117,27 +117,31 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
-    @Override public FunDeclaration visitFunDeclaration(CminusParser.FunDeclarationContext ctx) {
+    @Override public Node visitFunDeclaration(CminusParser.FunDeclarationContext ctx) {
         VarType type = getVarType(ctx.typeSpecifier());
         String functionName = ctx.ID().getText();
         symbolTable.addSymbol(functionName, new SymbolInfo(functionName, type, true));
         List<Node> params = new ArrayList<>();
+        SymbolTable child = symbolTable.createChild();
         if(!ctx.param().isEmpty()){
             for (CminusParser.ParamContext p : ctx.param()) {
                 if (p != null) {
+                    child.addSymbol(p.paramId().ID().getText(), new SymbolInfo(p.paramId().ID().getText(), type, false));
                     params.add(visitParam(p));
                 }
             }
         }
+        symbolTable = child;
         Statement body = visitStatement(ctx.statement());
+        symbolTable =  symbolTable.getParent();
         return new FunDeclaration(type, functionName, params, body);
     }
-//    /**
-//     * {@inheritDoc}
-//     *
-//     * <p>The default implementation returns the result of calling
-//     * {@link #visitChildren} on {@code ctx}.</p>
-//     */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
     @Override public TypeSpecifierNode visitTypeSpecifier(CminusParser.TypeSpecifierContext ctx) {
         String typeSpecifierText = ctx.getText(); // Get the text of the type specifier
 
@@ -154,32 +158,32 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
         // Return the VarType enum representing the type specifier
         return new TypeSpecifierNode(varType);
     }
-//    /**
-//     * {@inheritDoc}
-//     *
-//     * <p>The default implementation returns the result of calling
-//     * {@link #visitChildren} on {@code ctx}.</p>
-//     */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
     @Override public ParamNode visitParam(CminusParser.ParamContext ctx) {
         VarType type = getVarType(ctx.typeSpecifier());
         ParamIdNode paramId = visitParamId(ctx.paramId());
         return new ParamNode(type, paramId);
     }
-//    /**
-//     * {@inheritDoc}
-//     *
-//     * <p>The default implementation returns the result of calling
-//     * {@link #visitChildren} on {@code ctx}.</p>
-//     */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
     @Override public ParamIdNode visitParamId(CminusParser.ParamIdContext ctx) {
         return new ParamIdNode(ctx.getText());
     }
-//    /**
-//     * {@inheritDoc}
-//     *
-//     * <p>The default implementation returns the result of calling
-//     * {@link #visitChildren} on {@code ctx}.</p>
-//     */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
     @Override public Statement visitStatement(CminusParser.StatementContext ctx) {
         if (ctx.expressionStmt() != null) {
             return visitExpressionStmt(ctx.expressionStmt());
@@ -197,12 +201,12 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
         return (Statement)visitChildren(ctx);
     }
 
-//    /**
-//     * {@inheritDoc}
-//     *
-//     * <p>The default implementation returns the result of calling
-//     * {@link #visitChildren} on {@code ctx}.</p>
-//     */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
     @Override public Statement visitCompoundStmt(CminusParser.CompoundStmtContext ctx) {
         List<Node> varNodes = new ArrayList<>();
         List<Node> staNodes = new ArrayList<>();
@@ -216,21 +220,21 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
                 varNodes,
                 staNodes);
     }
-//    /**
-//     * {@inheritDoc}
-//     *
-//     * <p>The default implementation returns the result of calling
-//     * {@link #visitChildren} on {@code ctx}.</p>
-//     */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
     @Override public Statement visitExpressionStmt(CminusParser.ExpressionStmtContext ctx) {
         return new ExpressionStatementNode(visitExpression(ctx.expression()));
     }
-//    /**
-//     * {@inheritDoc}
-//     *
-//     * <p>The default implementation returns the result of calling
-//     * {@link #visitChildren} on {@code ctx}.</p>
-//     */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
     @Override public Statement visitIfStmt(CminusParser.IfStmtContext ctx) {
         List<Statement> statements = new ArrayList<>();
         for (CminusParser.StatementContext c: ctx.statement()) {
@@ -245,7 +249,7 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
 //     * {@link #visitChildren} on {@code ctx}.</p>
 //     */
     @Override public Statement visitWhileStmt(CminusParser.WhileStmtContext ctx) {
-        return null;
+        return new WhileStatementNode(visitSimpleExpression(ctx.simpleExpression()), visitStatement(ctx.statement()));
     }
 //    /**
 //     * {@inheritDoc}
@@ -254,7 +258,7 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
 //     * {@link #visitChildren} on {@code ctx}.</p>
 //     */
     @Override public Statement visitBreakStmt(CminusParser.BreakStmtContext ctx) {
-        return null;
+        return new Break();
     }
 //    /**
 //     * {@inheritDoc}

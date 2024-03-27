@@ -20,6 +20,7 @@ public class CompoundStatementNode implements Node, Statement {
             varDec.toCminus(builder, prefix+"\t");
         }
         for (Node stat: statements) {
+            if(stat == null){return;}
             stat.toCminus(builder, prefix+"\t");
         }
         builder.append(prefix).append("}\n");

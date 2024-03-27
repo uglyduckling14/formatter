@@ -19,7 +19,7 @@ public class ExpressionNode implements Node, Expression {
     }
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
-        //builder.append(prefix);
+        builder.append(prefix);
         mutable.toCminus(builder, prefix);
         builder.append(op);
         if(expression== null){return;}

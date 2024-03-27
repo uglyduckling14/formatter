@@ -19,7 +19,7 @@ public class OrExpressionNode implements Node, Expression {
             for (int i = 0; i < ands.size(); i++) {
                 ands.get(i).toCminus(builder, prefix);
                 if (i < ands.size() - 1) {
-                    builder.append(" || ");
+                    builder.append(prefix).append("||");
                 }
             }
         }
