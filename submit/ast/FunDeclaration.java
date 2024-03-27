@@ -30,7 +30,7 @@ public class FunDeclaration implements Declaration, Node{
         }
         builder.append(")\n");
         if (body != null) {
-            body.toCminus(builder, "\t");
+            body.toCminus(builder, "");
         }
     }
 }

@@ -15,13 +15,13 @@ public class CompoundStatementNode implements Node, Statement {
 
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
-        builder.append("{ \n");
+        builder.append(prefix).append("{ \n");
         for (Node varDec: varDeclarations) {
-            varDec.toCminus(builder, prefix);
+            varDec.toCminus(builder, prefix+"\t");
         }
         for (Node stat: statements) {
-            stat.toCminus(builder, prefix);
+            stat.toCminus(builder, prefix+"\t");
         }
-        builder.append("}\n");
+        builder.append(prefix).append("}\n");
     }
 }

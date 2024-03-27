@@ -10,8 +10,9 @@ public class ExpressionStatementNode implements Statement {
     }
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
+        builder.append(prefix);
         if(exp != null) {
-            exp.toCminus(builder, prefix);
+            exp.toCminus(builder, "");
         }
         builder.append(";\n");
     }
