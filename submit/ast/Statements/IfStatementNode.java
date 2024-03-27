@@ -20,8 +20,8 @@ public class IfStatementNode implements Statement {
         builder.append(")\n");
         statements.get(0).toCminus(builder, prefix);
         if(statements.size() > 1){
-            builder.append("else");
-            statements.get(1).toCminus(builder, prefix);
+            builder.append(prefix).append("else\n");
+            statements.get(1).toCminus(builder, "\t"+prefix);
         }
     }
 }

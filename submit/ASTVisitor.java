@@ -26,9 +26,9 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
     }
 
     private VarType getVarType(CminusParser.TypeSpecifierContext ctx) {
-        if(ctx == null){return null;}
+        if(ctx == null){return VarType.VOID;}
         final String t = ctx.getText();
-        return (t.equals("int")) ? VarType.INT : (t.equals("bool")) ? VarType.BOOL : VarType.CHAR;
+        return (t.equals("int")) ? VarType.INT : (t.equals("bool")) ? VarType.BOOL : (t.equals("void")) ? VarType.VOID : VarType.CHAR;
     }
 
     @Override public Node visitProgram(CminusParser.ProgramContext ctx) {
@@ -150,6 +150,7 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
             case "int" -> VarType.INT;
             case "bool" -> VarType.BOOL;
             case "char" -> VarType.CHAR;
+            case "void" -> VarType.VOID;
             default ->
                 // Handle unknown type specifier
                     throw new IllegalArgumentException("Unknown type specifier: " + typeSpecifierText);
