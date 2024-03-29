@@ -6,8 +6,8 @@ import submit.ast.Node;
 import java.util.List;
 
 public class AndExpressionNode implements Node, Expression {
-    List<Node> unRels;
-    public AndExpressionNode(List<Node> unRels){
+    List<Expression> unRels;
+    public AndExpressionNode(List<Expression> unRels){
         this.unRels = unRels;
     }
 
@@ -19,8 +19,8 @@ public class AndExpressionNode implements Node, Expression {
         } else {
             for (int i = 0; i < unRels.size(); i++) {
                 unRels.get(i).toCminus(builder, prefix);
-                if (i < unRels.size() - 1) {
-                    builder.append(" && ");
+                if(i != unRels.size()-1) {
+                    builder.append(" ").append("&&").append(" ");
                 }
             }
         }

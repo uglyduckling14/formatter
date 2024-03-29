@@ -298,7 +298,7 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public Expression visitOrExpression(CminusParser.OrExpressionContext ctx) {
-        List<Node> ands = new ArrayList<>();
+        List<Expression> ands = new ArrayList<>();
         for (CminusParser.AndExpressionContext and:ctx.andExpression()) {
             ands.add(visitAndExpression(and));
         }
@@ -310,8 +310,8 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
-    @Override public Node visitAndExpression(CminusParser.AndExpressionContext ctx) {
-        List<Node> unRels = new ArrayList<>();
+    @Override public Expression visitAndExpression(CminusParser.AndExpressionContext ctx) {
+        List<Expression> unRels = new ArrayList<>();
         for (CminusParser.UnaryRelExpressionContext un:ctx.unaryRelExpression()) {
             unRels.add(visitUnaryRelExpression(un));
         }
@@ -323,7 +323,7 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
-    @Override public Node visitUnaryRelExpression(CminusParser.UnaryRelExpressionContext ctx) {
+    @Override public Expression visitUnaryRelExpression(CminusParser.UnaryRelExpressionContext ctx) {
         return new UnaryRelExpressionNode(ctx.BANG(), visitRelExpression(ctx.relExpression()));
     }
     /**

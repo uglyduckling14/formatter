@@ -6,8 +6,8 @@ import submit.ast.Node;
 import java.util.List;
 
 public class OrExpressionNode implements Node, Expression {
-    List<Node> ands;
-    public OrExpressionNode(List<Node> ands){
+    List<Expression> ands;
+    public OrExpressionNode(List<Expression> ands){
         this.ands = ands;
     }
     @Override
@@ -18,8 +18,8 @@ public class OrExpressionNode implements Node, Expression {
         } else {
             for (int i = 0; i < ands.size(); i++) {
                 ands.get(i).toCminus(builder, prefix);
-                if (i < ands.size() - 1) {
-                    builder.append(prefix).append("||");
+                if(i != ands.size()-1) {
+                    builder.append(" ").append("||").append(" ");
                 }
             }
         }
