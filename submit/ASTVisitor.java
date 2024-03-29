@@ -333,13 +333,13 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public Node visitRelExpression(CminusParser.RelExpressionContext ctx) {
-        List<Node> sumExpressions = new ArrayList<>();
-        List<Node> relops = new ArrayList<>();
+        List<Expression> sumExpressions = new ArrayList<>();
+        List<String> relops = new ArrayList<>();
         for (CminusParser.SumExpressionContext exp: ctx.sumExpression()) {
-            sumExpressions.add(visitSumExpression(exp));
+            sumExpressions.add((Expression)visitSumExpression(exp));
         }
         for (CminusParser.RelopContext relop: ctx.relop()) {
-            relops.add(visitRelop(relop));
+            relops.add(relop.getText());
         }
         return new RelExpressionNode(sumExpressions, relops);
     }
@@ -359,13 +359,13 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public Node visitSumExpression(CminusParser.SumExpressionContext ctx) {
-        List<Node> termExpressions = new ArrayList<>();
-        List<Node> sumops = new ArrayList<>();
+        List<Expression> termExpressions = new ArrayList<>();
+        List<String> sumops = new ArrayList<>();
         for (CminusParser.TermExpressionContext exp: ctx.termExpression()) {
-            termExpressions.add(visitTermExpression(exp));
+            termExpressions.add((Expression)visitTermExpression(exp));
         }
         for (CminusParser.SumopContext sumop: ctx.sumop()) {
-            sumops.add(visitSumop(sumop));
+            sumops.add(sumop.getText());
         }
         return new SumExpressionNode(termExpressions, sumops);
     }
@@ -385,13 +385,13 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public Node visitTermExpression(CminusParser.TermExpressionContext ctx) {
-        List<Node> unaryExpressions = new ArrayList<>();
-        List<Node> mulops = new ArrayList<>();
+        List<Expression> unaryExpressions = new ArrayList<>();
+        List<String> mulops = new ArrayList<>();
         for (CminusParser.UnaryExpressionContext exp: ctx.unaryExpression()) {
-            unaryExpressions.add(visitUnaryExpression(exp));
+            unaryExpressions.add((Expression)visitUnaryExpression(exp));
         }
         for (CminusParser.MulopContext mulop: ctx.mulop()) {
-            mulops.add(visitMulop(mulop));
+            mulops.add(mulop.getText());
         }
         return new TermExpressionNode(unaryExpressions, mulops);
     }

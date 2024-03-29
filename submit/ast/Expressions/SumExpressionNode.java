@@ -1,14 +1,15 @@
 package submit.ast.Expressions;
 
+import submit.ast.BinaryOperator;
 import submit.ast.Expression;
 import submit.ast.Node;
 
 import java.util.List;
 
 public class SumExpressionNode implements Node, Expression {
-    List<Node> termExpressions;
-    List<Node> sumops;
-    public SumExpressionNode(List<Node> termExpressions, List<Node> sumops){
+    List<Expression> termExpressions;
+    List<String> sumops;
+    public SumExpressionNode(List<Expression> termExpressions, List<String> sumops){
         this.sumops = sumops;
         this.termExpressions = termExpressions;
     }
@@ -17,14 +18,8 @@ public class SumExpressionNode implements Node, Expression {
         if(sumops.size()==0&&termExpressions.get(0)!= null){
             termExpressions.get(0).toCminus(builder, prefix);
         } else {
-            for (int i = 0; i < termExpressions.size(); i++) {
-                if(termExpressions.get(i)!=null) {
-                    termExpressions.get(i).toCminus(builder, prefix);
-                    if (i < sumops.size() && sumops.get(i)!=null) {
-                        sumops.get(i).toCminus(builder, prefix);
-                    }
-                }
-            }
+            BinaryOperator bOp = new BinaryOperator(termExpressions, sumops);
+            bOp.toCminus(builder, prefix);
         }
     }
 }

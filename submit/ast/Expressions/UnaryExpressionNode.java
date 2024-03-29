@@ -1,10 +1,11 @@
 package submit.ast.Expressions;
 
+import submit.ast.Expression;
 import submit.ast.Node;
 
 import java.util.List;
 
-public class UnaryExpressionNode implements Node {
+public class UnaryExpressionNode implements Node, Expression {
     List<Node> unaryOps;
     Node factor;
     public UnaryExpressionNode(List<Node> unaryOps, Node factor){
