@@ -19,7 +19,7 @@ public class Call implements Node{
         }
         for(int i = 0; i< expressions.size()-1; i++){
             expressions.get(i).toCminus(builder, prefix);
-            builder.append(",");
+            builder.append(", ");
         }
         expressions.get(expressions.size()-1).toCminus(builder, prefix);
         builder.append(")");

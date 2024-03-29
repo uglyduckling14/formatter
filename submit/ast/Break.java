@@ -6,6 +6,6 @@ public class Break implements Statement{
     }
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
-        builder.append("break;");
+        builder.append(prefix).append("break;\n");
     }
 }
