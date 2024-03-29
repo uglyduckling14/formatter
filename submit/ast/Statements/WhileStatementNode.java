@@ -15,6 +15,6 @@ public class WhileStatementNode implements Statement, Node {
         builder.append(prefix).append("while (");
         simpleExp.toCminus(builder, "");
         builder.append(")\n");
-        statement.toCminus(builder, prefix);
+        statement.toCminus(builder, prefix+" ");
     }
 }

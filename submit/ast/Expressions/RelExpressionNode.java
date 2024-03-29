@@ -15,7 +15,6 @@ public class RelExpressionNode implements Node, Expression {
     }
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
-        //TODO fix null things
         if(relops.size()==0&&sumExpressions.get(0)!= null){
             sumExpressions.get(0).toCminus(builder, prefix);
         } else {

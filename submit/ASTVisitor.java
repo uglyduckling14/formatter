@@ -4,10 +4,7 @@ import parser.CminusBaseVisitor;
 import parser.CminusParser;
 import submit.ast.*;
 import submit.ast.Expressions.*;
-import submit.ast.Ops.MulopNode;
-import submit.ast.Ops.RelopNode;
-import submit.ast.Ops.SumopNode;
-import submit.ast.Ops.UnaryopNode;
+import submit.ast.UnaryopNode;
 import submit.ast.Statements.CompoundStatementNode;
 import submit.ast.Statements.ExpressionStatementNode;
 import submit.ast.Statements.IfStatementNode;
@@ -349,9 +346,9 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
-    @Override public Node visitRelop(CminusParser.RelopContext ctx) {
-        return new RelopNode(ctx.getText());
-    }
+//    @Override public Node visitRelop(CminusParser.RelopContext ctx) {
+//        return new RelopNode(ctx.getText());
+//    }
     /**
      * {@inheritDoc}
      *
@@ -375,9 +372,9 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
-    @Override public Node visitSumop(CminusParser.SumopContext ctx) {
-        return new SumopNode(ctx.getText());
-    }
+//    @Override public Node visitSumop(CminusParser.SumopContext ctx) {
+//        return new SumopNode(ctx.getText());
+//    }
     /**
      * {@inheritDoc}
      *
@@ -401,9 +398,9 @@ public class ASTVisitor extends CminusBaseVisitor<Node> {
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
-    @Override public Node visitMulop(CminusParser.MulopContext ctx) {
-        return new MulopNode(ctx.getText());
-    }
+//    @Override public Node visitMulop(CminusParser.MulopContext ctx) {
+//        return new MulopNode(ctx.getText());
+//    }
     /**
      * {@inheritDoc}
      *

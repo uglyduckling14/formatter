@@ -1,10 +1,10 @@
-package submit.ast.Ops;
+package submit.ast;
 
 import submit.ast.Node;
 
-public class SumopNode implements Node {
+public class UnaryopNode implements Node {
     String op;
-    public SumopNode(String op){
+    public UnaryopNode(String op){
         this.op = op;
     }
     @Override

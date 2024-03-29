@@ -15,7 +15,6 @@ public class UnaryExpressionNode implements Node, Expression {
 
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
-        //TODO remove null check
         for (Node op: unaryOps) {
             op.toCminus(builder, prefix);
         }

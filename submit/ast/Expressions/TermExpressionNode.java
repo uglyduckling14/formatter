@@ -15,7 +15,6 @@ public class TermExpressionNode implements Node, Expression {
     }
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
-        //TODO fix null things
         if(mulops.size()==0&&termExpressions.get(0)!= null){
             termExpressions.get(0).toCminus(builder, prefix);
         } else {
