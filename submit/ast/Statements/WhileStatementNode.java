@@ -12,9 +12,16 @@ public class WhileStatementNode implements Statement, Node {
     }
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
-        builder.append(prefix).append("while (");
-        simpleExp.toCminus(builder, "");
-        builder.append(")\n");
-        statement.toCminus(builder, prefix+" ");
+        if(prefix.length()>4){
+            builder.append(prefix, 0, (prefix.length()-2)).append("while (");
+            simpleExp.toCminus(builder, "");
+            builder.append(")\n");
+            statement.toCminus(builder, prefix);
+        }else {
+            builder.append(prefix).append("while (");
+            simpleExp.toCminus(builder, "");
+            builder.append(")\n");
+            statement.toCminus(builder, prefix+"  ");
+        }
     }
 }

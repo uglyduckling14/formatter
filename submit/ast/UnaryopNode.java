@@ -1,7 +1,5 @@
 package submit.ast;
 
-import submit.ast.Node;
-
 public class UnaryopNode implements Node {
     String op;
     public UnaryopNode(String op){
@@ -9,6 +7,6 @@ public class UnaryopNode implements Node {
     }
     @Override
     public void toCminus(StringBuilder builder, String prefix) {
-        builder.append(op).append(" ");
+        builder.append(op);
     }
 }
